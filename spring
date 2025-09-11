@@ -1,0 +1,4245 @@
+Handson
+
+1. Write a lambda expression which accepts x and y numbers and return xy .
+
+ 
+
+2. Write a method that uses lambda expression to format a given string, where a space is inserted between each character of string. For ex., if input is “CG”, then expected output is “C G”.
+
+ 
+
+ 
+
+JDK1.5
+
+1. Generics - Avoid type casting
+
+ 
+
+List<String> l = new ArrayList<String>();
+
+ 
+
+2. Autoboxing(automatic conversion of datatype to wrapper class) and Unboxing(automatic conversion of wrapper class to datatype)
+
+ 
+
+int a=10;  //declaration of variable
+
+Integer b; //declaration of class
+
+b=a;  //autoboxing //b=10  //b=new Integer(a);
+
+int c=b; //unboxing  //c=b.intValue();
+
+ 
+
+3. Var args - variable number of arguments, denoted ...
+
+ 
+
+void add(int a,int b) {
+
+}
+
+void add(int a,int b,int c) {
+
+}
+
+void add(int a,int b,int c,int d) {
+
+}
+
+ 
+
+void add(int...a) {  //take 0 or n number of int args
+
+}
+
+void add(String...s) { //take 0 or n number of String args
+
+}
+
+ 
+
+void add(String...s,boolean b) {  //error
+
+}
+
+ 
+
+void add(boolean b, double d,String...s) {  //var args should be always last argument
+
+}
+
+add(false,3.4,"hello","world","hi");
+
+add(true,1.4,"hello")
+
+void add(boolean b, double...d,String...s) {  //error - a method can take only 1 var args
+
+}
+
+ 
+
+4. static import
+
+ 
+
+System.out.println()
+
+ 
+
+System is a predefined class
+
+ 
+
+public class System extends Object {
+
+   static PrintStream out;
+
+}
+
+ 
+
+We call static method and variable using classname.methodname or classname.variable, but if we want to invoke static method and variable without using classname.methodname or classname.variable, in that case we use static import
+
+ 
+
+import static java.lang.System.out;
+
+import static java.lang.Math.sqrt;
+
+ 
+
+public class Main {
+
+ 
+
+              public static void main(String[] args) {
+
+                             double d=sqrt(16);  //static method
+
+                             out.println(d);
+
+              }
+
+ 
+
+}
+
+ 
+
+5. for each stmt - enhanced for loop
+
+ 
+
+double a[] = {1.1,2.2,3.3}
+
+ 
+
+for(int i=0;i<a.length;i++) {
+
+   System.out.println(a[i])
+
+}
+
+ 
+
+1. you have to declare loop counter variable only inside for each loop and it should be of same datatype as an array
+
+2. 1D will be stored in a variable, 2D will be stored in 1D and 3D will be stored in 2D etc
+
+ 
+
+for(double d1:a)
+
+   System.out.println(d1);
+
+ 
+
+int a1[][]={{1,2},{3,4}};
+
+ 
+
+for(int a2[]:a1)
+
+  for(int a3:a2)
+
+        System.out.println(a3);
+
+ 
+
+ 
+
+6. Assertions
+
+7. Annotations
+
+ 
+
+ 
+
+JDK1.7
+
+1. Generics
+
+ 
+
+List<String> l = new ArrayList<String>();  //JDK1.5
+
+List<String> l = new ArrayList<>(); //JDK1.7
+
+ 
+
+2. try with resources - to automatically close the resources which is opened
+
+ 
+
+try(FileWriter fw=new FileWriter("a.txt");) {
+
+ 
+
+}catch(Exception e){
+
+}
+
+ 
+
+3. Multi catch statement with | symbol
+
+ 
+
+try{
+
+}
+
+catch(NullPointerException | ArthimeticException | ArrayIndexOutOfBoundsException e){
+
+}
+
+ 
+
+4. Binary literal
+
+int a=0b100;
+
+SOP(a);  //4
+
+int a1=0B11;
+
+SOP(a1); //3
+
+ 
+
+5. Underscore literal - only for representation
+
+ 
+
+int a=100000;
+
+int a=1_00_000;
+
+int a1=10_00_000;
+
+int b=10_; //error
+
+float f1=3_.14f; //error
+
+float f1=3._14f; //error
+
+float f1=3.14_f; //error
+
+float f1=3.1_4f; //correct
+
+ 
+
+6. In Switch case, we can use String as an expr
+
+ 
+
+ 
+
+JDK1.8 Features
+
+1. Lambda expression
+
+       - used to enable functional programming in Java which contains functions that exists on its own and execute it independently
+
+ 
+
+public class Main {
+
+    public void greet() {
+
+               System.out.println("Helloworld");
+
+    }
+
+              public static void main(String[] args) {
+
+                             Main m=new Main();
+
+                             Main m1=new Main();
+
+                             Main m2=new Main();
+
+                             m.greet();
+
+                             m1.greet();
+
+                             m2.greet();
+
+              }
+
+}
+
+ 
+
+Now greet() always prints only "Helloworld" for any number of objects, but we need greet() to print different information, until JDK1.7 if we need different implementations for the methods then we have to go for interface
+
+ 
+
+interface Greeting {
+
+              void perform();
+
+}
+
+class Helloworld implements Greeting {
+
+              @Override
+
+              public void perform() {
+
+                             System.out.println("Hello");
+
+              }            
+
+}
+
+class Welcome implements Greeting  {
+
+              @Override
+
+              public void perform() {
+
+                             System.out.println("Welcome");
+
+              }            
+
+}
+
+public class Main {
+
+    /*public void greet() {
+
+               System.out.println("Helloworld");
+
+    }*/
+
+              public void greet(Greeting g) {
+
+               g.perform();
+
+    }
+
+              public static void main(String[] args) {
+
+                             Main m=new Main();
+
+                             Greeting gr=new Helloworld();  //Dynamic Method Dispatch
+
+                             m.greet(gr); //Hello
+
+                             gr=new Welcome();
+
+                             m.greet(gr); //Welcome
+
+              }
+
+}
+
+ 
+
+But we want to pass the behaviour directly (ie) perform() as an argument to greet() and execute the perform() independently, rather than passing the thing that contains perform() method (ie) Greeting interface
+
+ 
+
+Lambda expression are just function that exists on its own and execute it independently, so that we are enabling functional programming in Java
+
+ 
+
+How we write Lambda expression?
+
+1. We take a function and assign to a variable
+
+ 
+
+a = public void perform() {
+
+        System.out.println("Hello");
+
+    }
+
+ 
+
+public, private and protected make sense if we write any method inside class, but in lambda expr they are just functions that exists on its own. So when we write any lambda expr there is no need to define access specifier
+
+ 
+
+2. a = void perform() {
+
+        System.out.println("Hello");
+
+    }
+
+ 
+
+Whenever we assign a function to a variable, then we can invoke the function by calling the variablename. So when we write any lambda expr there is no need to define function name
+
+ 
+
+3. a = void () {
+
+        System.out.println("Hello");
+
+        return "10";
+
+    }
+
+ 
+
+By seeing the function itself we can identiy the return of the function.  So when we write any lambda expr there is no need to define return type
+
+ 
+
+4. a = () {
+
+        System.out.println("Hello");
+
+    }
+
+ 
+
+Lambda expr contains parenthesis for input argument, logic inside curly braces and use -> symbol
+
+ 
+
+a = () -> {
+
+          System.out.println("Hello");
+
+       }
+
+ 
+
+b = (int a,int b) -> {
+
+           return a+b;
+
+           }
+
+ 
+
+5. FunctionType<Void,Void> a = () -> {
+
+                                     System.out.println("Hello");
+
+                                  }
+
+ 
+
+FunctionalInterface a = () -> {
+
+                                     System.out.println("Hello");
+
+                                  }
+
+ 
+
+- Using FunctionalInterface as a return type of lambda expr, this is called as Type Inference
+
+- Lambda expr is always used to write logic only for the methods in Functional interface
+
+ 
+
+Rules
+
+1. If ur body of lambda expr is just a single line, then we can ignore curly braces
+
+ 
+
+FunctionalInterface a = () ->  System.out.println("Hello");
+
+                                 
+
+2. If ur body of lambda expr is just a single line, then we can ignore return stmt
+
+ 
+
+FunctionalInterface  b = (int a,int b) -> a+b;
+
+          
+
+Before JDK1.8, How we can access the methods in an interface - 2 ways
+
+1. By implementing interface in a class
+
+ 
+
+interface Greeting {
+
+              void perform();
+
+}
+
+class Helloworld implements Greeting {
+
+              @Override
+
+              public void perform() {
+
+                             System.out.println("Hello");
+
+              }            
+
+}
+
+public class Main {
+
+              public static void main(String[] args) {
+
+                             Greeting gr=new Helloworld();  //Dynamic Method Dispatch
+
+                             gr.perform(); //Hello
+
+              }
+
+}
+
+ 
+
+2. Use Anonmyous Inner class
+
+ 
+
+interface Greeting {
+
+              void perform();
+
+}
+
+ 
+
+public class Main {
+
+              public static void main(String[] args) {
+
+                             Greeting gr=new Greeting() {   //Anonmyous Inner class
+
+                                           @Override
+
+                                           public void perform() {
+
+                                                          System.out.println("Hello");
+
+                                           }                           
+
+                             };
+
+                             gr.perform();
+
+              }
+
+}
+
+ 
+
+FunctionalInterface
+
+   - contains only one abstract and any number of default and static methods
+
+   - We will write logic for functional interface method using lambda expr
+
+   - It is also called as SAM(Single Abstract Method)
+
+   - Using @FunctionalInterface annotation present in java.lang.* pkg - optional
+
+   - If a interface contains only method of Object class as abstract, then it is also considered as Functional Interface
+
+ 
+
+//Functional Interface
+
+interface A {
+
+   void add();
+
+}
+
+ 
+
+ 
+
+//Not Functional Interface
+
+interface A {
+
+   void add();
+
+   void show();
+
+}
+
+ 
+
+//Functional Interface
+
+interface A {
+
+   void add();
+
+   default void show() {
+
+   }
+
+   static void show1() {
+
+   }
+
+}
+
+ 
+
+//Functional Interface
+
+interface A {
+
+   void add();
+
+   String toString();   //Object class
+
+}
+
+ 
+
+//Not Functional Interface
+
+interface A {
+
+   void add();
+
+   boolean equals();
+
+}
+
+ 
+
+//Functional Interface
+
+interface A {
+
+   void add();
+
+   boolean equals(Object o);   //Object class
+
+}
+
+ 
+
+//Functional Interface
+
+@FunctionalInterface
+
+interface A {
+
+   void add();
+
+}
+
+ 
+
+ 
+
+//Functional Interface
+
+interface A {
+
+   void add();
+
+}
+
+interface B extends A,C { //Not functional interface
+
+   void add1();
+
+}
+
+ 
+
+ 
+
+interface Greeting {
+
+              void perform();
+
+}
+
+ 
+
+public class Main {
+
+              public static void main(String[] args) {
+
+           Greeting g=()->System.out.println("Using Lambda");
+
+           g.perform(); //Using Lambda
+
+              }
+
+}
+
+ 
+
+ 
+
+//Functional Interface
+
+interface MyInterface {
+
+              int calculateLength(String s);
+
+}
+
+ 
+
+public class Main {
+
+              public static void main(String[] args) {
+
+                             MyInterface m=(e1)->e1.length();
+
+                             System.out.println(m.calculateLength("hello"));  //5
+
+    }
+
+}
+
+ 
+
+//Functional Interface
+
+interface MyInterface {
+
+              void add(int a,int b);
+
+}
+
+ 
+
+public class Main {
+
+              public static void main(String[] args) {
+
+                             MyInterface m1=(x,y)->System.out.println(x+y);
+
+                             m1.add(10,20);  //30
+
+    }
+
+}
+
+ 
+
+ 
+
+public class Main {
+
+              public static void main(String[] args) {
+
+                             Thread t1=new Thread(new Runnable() {
+
+                                           public void run() {
+
+                                                          System.out.println("Using Anonmyous class");
+
+                                           }
+
+                             });
+
+                             t1.run();
+
+                            
+
+                             Thread t2=new Thread(()->System.out.println("Using Lambda"));
+
+                             t2.run();
+
+    }
+
+}
+
+Handson
+
+ 
+
+1. Given a list of integers, find the sum of the squares of all even numbers.
+
+2. Given a list of strings (names), concatenate all names that start with the letter 'A' in uppercase and return the concatenated string.
+
+3. Given a list of strings, find the longest word. If multiple words are of the same length, return the first one.
+
+4. Given a list of strings, count how many times each word appears in the list.
+
+5. Given a list of integers, calculate the average of only the positive numbers.
+
+6. Given a list of integers, find the distinct even numbers.
+
+7. Given a list of integers, find the first odd number greater than 5.
+
+8. Given a list of integers, check if all numbers are positive.
+
+9. Given a list of integers, calculate the sum of squares of even numbers.
+
+10. Write a Stream operation to find the longest string from a list of strings.
+
+ 
+
+ 
+
+ 
+
+Java 8 features
+
+1. Lambda expression
+
+ 
+
+2. Method References
+
+    - It is an alternative to Lambda expr
+
+    - Also used to access the method of functional interface, instead of writing logic separately using lambda expr we can refer to the methods that already exists
+
+    - When signature of interface method matches with static method or instance method or constructor
+
+    - Denoted by ::
+
+ 
+
+3 types
+
+1. Reference to static method
+
+2. Reference to instance method
+
+ 
+
+interface MyInterface{
+
+              void show();
+
+}
+
+ 
+
+public class Main {
+
+              /*public static void add() {
+
+                             System.out.println("Reference to static method");
+
+              }*/
+
+             
+
+              public void sum() {
+
+                             System.out.println("Reference to instance method");
+
+              }
+
+              public static void main(String...args) {
+
+                  MyInterface m1=()->System.out.println("Using Lambda");
+
+                  m1.show();  //Using Lambda
+
+                 
+
+                  //MyInterface m2=Main::add;
+
+                 // m2.show();  //Reference to static method
+
+                 
+
+                  Main m3=new Main();
+
+                  MyInterface m4=m3::sum;
+
+                  m4.show(); //Reference to instance method
+
+                                          
+
+    }
+
+}
+
+ 
+
+3. Reference to constructor
+
+ 
+
+interface MyInterface{
+
+              //Main show();
+
+              Main show(String s);
+
+}
+
+ 
+
+public class Main {
+
+              Main() {
+
+                             System.out.println("Reference to default constructor");
+
+              }
+
+              Main(String s) {
+
+                             System.out.println("Reference to constructor: "+s);
+
+              }
+
+              public static void main(String...args) {
+
+                // MyInterface m1=Main::new;
+
+                // m1.show();  //Reference to default constructor
+
+                            
+
+                             MyInterface m1=Main::new;
+
+                             m1.show("Hello");  //Reference to constructor: Hello
+
+    }
+
+}
+
+ 
+
+ 
+
+Predefined Functional Interface
+
+     - present in java.util.function.* package
+
+ 
+
+1. Consumer interface
+
+     void accept(T t);
+
+ 
+
+From JDK1.8 List and Set interface introduced a method called void forEach(Consumer c) - used to iterate elts of List and Set interface individually
+
+ 
+
+2. BiConsumer interface
+
+     void accept(T t, U u);     
+
+ 
+
+From JDK1.8 Map interface introduced a method called void forEach(BiConsumer c) - used to iterate elts of Map interface individually
+
+ 
+
+3. Function interface
+
+      R apply(T t)
+
+ 
+
+4. BiFunction interface
+
+      R apply(T t, U u)
+
+ 
+
+5. Predicate interface
+
+      boolean test(T t)
+
+ 
+
+6. BiPredicate interface
+
+      boolean test(T t, U u)
+
+ 
+
+7. Supplier interface
+
+      T get()
+
+ 
+
+8. BooleanSupplier interface
+
+      boolean getAsBoolean()
+
+ 
+
+9. UnaryOperator interface extends Function interface
+
+      R apply(T t)
+
+ 
+
+10. BinaryOperator interface extends BiFunction interface
+
+      R apply(T t, U u)
+
+ 
+
+public class Main {
+
+              public static void main(String...args) {
+
+                 List<String> l1=new ArrayList<>();
+
+                 l1.add("Ram");
+
+                 l1.add("Sam");
+
+                 l1.add("Tam");
+
+                 l1.add("Jam");
+
+                 System.out.println(l1); //[Ram,Sam,Tam,Jam]
+
+                // l1.forEach((e)->System.out.println(e));  //lambda expr
+
+                 l1.forEach(System.out::println);  //reference to instance method
+
+                
+
+                 Map<Integer,String> hm=new HashMap<>();
+
+                 hm.put(20, "Ram");
+
+                 hm.put(10, "Sam");
+
+                 hm.put(30, "Jam");
+
+                 hm.put(40, "Tam");
+
+                 System.out.println(hm); //{20=Ram, 40=Tam, 10=Sam, 30=Jam}
+
+                
+
+                 hm.forEach((k,v)->System.out.println("Key: "+k+" Value: "+v));
+
+                
+
+                 Function<String,Integer> f1=(s)->s.length();
+
+                 System.out.println(f1.apply("hello"));  //5
+
+                
+
+                 BiFunction<Integer,Integer,Integer> bf=(x1,y1)->x1+y1;
+
+                 System.out.println(bf.apply(10,20));  //30
+
+                
+
+                 Predicate<String> p=(p1)->p1.startsWith("Foo");
+
+                 System.out.println(p.test("Foobar")); //true
+
+                
+
+                 BiPredicate<Integer,String> bp=(a1,a2)->a1>10 & a2.endsWith("Bar");
+
+                 System.out.println(bp.test(25, "Foobar")); //true
+
+                
+
+                 Supplier<String> su=()->"hello";
+
+                 System.out.println(su.get()); //hello
+
+                
+
+                 BooleanSupplier bp1=()->10>20;
+
+                 System.out.println(bp1.getAsBoolean()); //false
+
+                
+
+                 BiFunction<Integer,String,Boolean> bf1=(x1,y1)->x1>10 & y1.startsWith("Foo");
+
+                 System.out.println(bf1.apply(20,"Foobar")); //true
+
+                
+
+                 BinaryOperator<String> bo=(s1,s2)->s1.concat(s2);
+
+                 System.out.println(bo.apply("Hello", "world"));
+
+    }
+
+}
+
+ 
+
+Streams API
+
+   - used to process collection of objects with less number of coding
+
+   - fetch collection of objects from some source(ie) List or Set or Array and process them sequentially
+
+   - Collection framework also stores collection of objects and we can manipulate and process the object, but with streams api we can only process the collection of object and we cant manipulate it
+
+   - present in java.util.streams.* package
+
+   - 2 types - finite(fixed value) and infinite(unlimited value) streams
+
+   - 2 types of operation
+
+1. Intermediate operation - return stream itself - optional - we can chain multiple intermediate operation at the same time
+
+   - filter(), map(), flatMap(), sorted(), peek(), skip(), limit(), distinct(), dropWhile(), takeWhile()
+
+2. Terminal operation - It will traverse into newly generated streams and returns a single value - mandatory - we cant chain multiple terminal operation
+
+   - toArray(), forEach(), count(), min(), max(), reduce(), collect(), anyMatch(), allMatch(), noneMatch(), findFirst()
+
+ 
+
+3 steps
+
+Creation of stream - Intermediate operation - Terminal operation
+
+   - If we perform terminal operation then that stream is completely closed, so when we perform any other operation on closed stream then we get IllegalStateException
+
+ 
+
+ 
+
+1. Creation of Stream(Finite stream) - 2 ways
+
+1. stream() - used to create a stream from some source like List or Set or Array
+
+ 
+
+String[] a=new String[]{"one","two","three"};   //Anonmyous array
+
+Stream<String> st1=a.stream();
+
+ 
+
+List<Integer> l=new ArrayList<>();
+
+l.add(1);
+
+l.add(2);
+
+l.add(3);
+
+l.add(4);
+
+Stream<Integer> st2=l.stream();
+
+ 
+
+2. of() - used to create our own stream
+
+ 
+
+Stream<String> st3=Stream.of("one","two","three");
+
+ 
+
+ 
+
+anyMatch(Predicate), allMatch(Predicate), noneMatch(Predicate) - terminal
+
+ 
+
+filter(Predicate) - intermediate - used to filter data based on some condition
+
+ 
+
+reduce() - terminal - used to reduce multiple value into single value
+
+   - Optional reduce(BinaryOperator)
+
+   - Integer reduce(int initialvalue,BinaryOperator)
+
+   - Stream reduce(int initialvalue,BinaryOperator,BinaryOperator)
+
+ 
+
+ 
+
+public class Main {
+
+              public static void main(String...args) {
+
+                  List<String> l=new ArrayList<>();
+
+                  l.add("Ram");
+
+                  l.add("Sam");
+
+                  l.add("Raj");
+
+                  l.add("Tam");
+
+                  l.add("Tim");
+
+                  l.add("Jim");
+
+                  l.add("Ram");
+
+                  l.add("Ham");
+
+                  System.out.println(l.size());  //8
+
+                 
+
+                  Stream<String> st=l.stream();
+
+                  Stream<String> st1=st.distinct();
+
+                  long val=st1.count();
+
+                  System.out.println(val); //7
+
+                 
+
+                  long val1=l.stream().distinct().count();
+
+                  System.out.println(val1); //7
+
+                 
+
+                  boolean b1=l.stream().distinct().anyMatch((e)->e.startsWith("R"));
+
+                  System.out.println(b1); //true
+
+                  boolean b2=l.stream().distinct().allMatch((e)->e.startsWith("R"));
+
+                  System.out.println(b2); //false
+
+                  boolean b3=l.stream().distinct().noneMatch((e)->e.startsWith("Z"));
+
+                  System.out.println(b3); //true
+
+                 
+
+                  List<Student> l1=new ArrayList<>();
+
+                  l1.add(new Student(23,"PK"));
+
+                  l1.add(new Student(26,"KK"));
+
+                  l1.add(new Student(22,"MK"));
+
+                  l1.add(new Student(21,"SK"));
+
+                  l1.add(new Student(20,"AK"));
+
+                  l1.add(new Student(33,"TK"));
+
+                  l1.add(new Student(24,"BK"));
+
+                  l1.add(new Student(25,"GK"));
+
+                  l1.add(new Student(27,"DK"));
+
+                 
+
+                  Stream<Student> st2=l1.stream().filter((s1)->s1.getId()>25);
+
+                  st2.forEach(System.out::println);
+
+                 
+
+                  Optional opt=Stream.of(3,5,6).reduce((a,b)->a*b);
+
+                  System.out.println(opt.get()); //90
+
+                 
+
+                  Integer i=Stream.of(3,5,6).reduce(2, (a,b)->a*b);
+
+                  System.out.println(i);  //180
+
+                 
+
+                  Optional<String> opt1=Stream.of("lion","ape","tiger").min((c1,c2)->c1.length()-c2.length());
+
+                  System.out.println(opt1.get()); //ape
+
+                 
+
+                  Optional<String> opt2=Stream.of("lion","ape","tiger").max((c1,c2)->c1.length()-c2.length());
+
+                  System.out.println(opt2.get()); //tiger
+
+                 
+
+    }
+
+}
+
+ 
+
+map(Function) - intermediate - used to data transformation
+
+              - take one Function functional interface as an argument and return a stream consisting of results generated by applying passed function to each element
+
+ 
+
+flatMap(Function) - intermediate - used to data transformation + flattening
+
+              - take one Function functional interface as an argument and return a new stream and that stream is copied to another stream which will return the value
+
+ 
+
+ 
+
+collect(Collector) - terminal - used to collect the data in List or Set or Map
+
+ 
+
+Collectors.toList()
+
+Collectors.toSet()
+
+Collectors.toMap(Function f1,Function f2)
+
+Collectors.joining()
+
+Collectors.counting()
+
+Collectors.toCollection(Supplier) - other than List,Set or Map, if we want to collect in different datatype
+
+Collectors.partitioningBy() - used to split the list based on true or false condition
+
+     - partitioningBy(Predicate)
+
+     - partitioningBy(Predicate, Collector)
+
+Collectors.groupingBy() - used to group the elts based on some condition
+
+     - groupingBy(Function)
+
+     - groupingBy(Function, Collector)
+
+     - groupingBy(Function,Comparator,Collector)
+
+ 
+
+ 
+
+ 
+
+class Customer {
+
+    private int id;
+
+    private String name;
+
+    private String email;
+
+    private List<String> phoneNumbers;
+
+              public Customer(int id, String name, String email, List<String> phoneNumbers) {
+
+                             super();
+
+                             this.id = id;
+
+                             this.name = name;
+
+                             this.email = email;
+
+                             this.phoneNumbers = phoneNumbers;
+
+              }
+
+              public int getId() {
+
+                             return id;
+
+              }
+
+              public void setId(int id) {
+
+                             this.id = id;
+
+              }
+
+              public String getName() {
+
+                             return name;
+
+              }
+
+              public void setName(String name) {
+
+                             this.name = name;
+
+              }
+
+              public String getEmail() {
+
+                             return email;
+
+              }
+
+              public void setEmail(String email) {
+
+                             this.email = email;
+
+              }
+
+              public List<String> getPhoneNumbers() {
+
+                             return phoneNumbers;
+
+              }
+
+              public void setPhoneNumbers(List<String> phoneNumbers) {
+
+                             this.phoneNumbers = phoneNumbers;
+
+              }
+
+   
+
+    
+
+}
+
+ 
+
+public class MapVsFlatMap {
+
+     public static List<Customer> getAll() {
+
+        return Stream.of(
+
+                new Customer(101, "john", john@gmail.com, Arrays.asList("397937955", "21654725")),
+
+                new Customer(102, "smith", smith@gmail.com, Arrays.asList("89563865", "2487238947")),
+
+                new Customer(103, "peter", peter@gmail.com, Arrays.asList("38946328654", "3286487236")),
+
+                new Customer(104, "kely", kely@gmail.com, Arrays.asList("389246829364", "948609467"))
+
+        ).collect(Collectors.toList());
+
+    }
+
+    public static void main(String[] args) {
+
+ 
+
+      List<Customer> customers = getAll();
+
+ 
+
+        //List<Customer>  convert List<String> -> Data Transformation
+
+        //mapping : customer -> customer.getEmail()
+
+        //customer -> customer.getEmail()  one to one mapping, since one customer have one email
+
+        List<String> emails = customers.stream()
+
+                .map(customer -> customer.getEmail())
+
+                .collect(Collectors.toList());
+
+        System.out.println(emails);
+
+ 
+
+//customer -> customer.getPhoneNumbers()  ->> one to many mapping
+
+        //customer -> customer.getPhoneNumbers()  ->> one to many mapping
+
+        List<List<String>> phoneNumbers = customers.
+
+                stream().map(customer -> customer.getPhoneNumbers())
+
+                .collect(Collectors.toList());
+
+        System.out.println(phoneNumbers); //creates stream of phone numbers
+
+ 
+
+        //List<Customer>  convert List<String> -> Data Transformation
+
+        //mapping : customer -> phone Numbers
+
+        //customer -> customer.getPhoneNumbers()  ->> one to many mapping, since one customer have many phonenumbers
+
+        List<String> phones = customers.stream()
+
+                .flatMap(customer -> customer.getPhoneNumbers().stream())
+
+                .collect(Collectors.toList());
+
+        System.out.println(phones);  //flattens the phone number and prints
+
+    }
+
+}
+
+ 
+
+ 
+
+public class Main {
+
+              public static void main(String...args) {
+
+                Integer[] a=new Integer[] {1,2,3,4,5};
+
+                List<Integer> l=Arrays.asList(a);
+
+               
+
+                System.out.println(l); //[1,2,3,4,5]
+
+               
+
+                //From JDK10
+
+                //List<Integer> l1=List.of(1,2,3,4,5);
+
+               
+
+                List<Integer> l1=l.stream().map((e)->e*3).collect(Collectors.toList());
+
+                l1.forEach(System.out::println);
+
+                
+
+                List<Integer> l2=l.stream().flatMap((e)->Stream.of(e*2)).collect(Collectors.toList());
+
+                l2.forEach(System.out::println);
+
+               
+
+                String str=Stream.of("one","two","three").collect(Collectors.joining("-"));
+
+                System.out.println(str); //one-two-three
+
+               
+
+                long c=Stream.of("one","two","three").collect(Collectors.counting());
+
+                System.out.println(c); //3
+
+               
+
+                List<String> l3=Stream.of("lions","tigers","bears","toads","toads")
+
+                      .filter((s)->s.startsWith("t"))
+
+                      .collect(Collectors.toList());
+
+                System.out.println(l3);  //[tigers, toads, toads]
+
+               
+
+                List<String> l4=Stream.of("lions","tigers","bears","toads","toads")
+
+                                     .filter((s)->s.startsWith("t")).distinct()
+
+                                     .collect(Collectors.toList());
+
+                               System.out.println(l4);  //[tigers, toads]
+
+                              
+
+                               Set<String> l5=Stream.of("lions","tigers","bears","toads","toads")
+
+                                                   .filter((s)->s.startsWith("t"))
+
+                                                   .collect(Collectors.toSet());
+
+                                             System.out.println(l5);  //[toads, tigers]
+
+                                            
+
+                                             Set<String> l6=Stream.of("lions","tigers","bears","toads","toads","tadpoles")
+
+                                                                  .filter((s)->s.startsWith("t"))
+
+                                                                  .collect(Collectors.toSet());
+
+                                                            System.out.println(l6); //[toads, tadpoles, tigers]
+
+                                                           
+
+                                                            TreeSet<String> l7=Stream.of("lions","tigers","bears","toads","toads","tadpoles")
+
+                                                                                .filter((s)->s.startsWith("t"))
+
+                                                                                .collect(Collectors.toCollection(TreeSet::new));
+
+                                                                          System.out.println(l7); //[tadpoles, tigers, toads]
+
+               
+
+                             Map<String,Integer> m1=Stream.of("lions","tigers","bears","toads")
+
+                                   .collect(Collectors.toMap((k1)->k1, (v1)->v1.length()));
+
+                             System.out.println(m1); //{toads=5, lions=5, bears=5, tigers=6}
+
+                            
+
+                             Map<Boolean,List<String>> m2=Stream.of("lions","tigers","bears","toads","toads","tadpoles")
+
+                             .collect(Collectors.partitioningBy((s1)->s1.length()<=5));
+
+                             System.out.println(m2);//{false=[tigers, tadpoles], true=[lions, bears, toads, toads]}
+
+                            
+
+                             Map<Boolean,Set<String>> m3=Stream.of("lions","tigers","bears","toads","toads","tadpoles")
+
+                                                          .collect(Collectors.partitioningBy((s2)->s2.length()<=5, Collectors.toSet()));
+
+                                                         System.out.println(m3);//{false=[tadpoles, tigers], true=[toads, lions, bears]}
+
+                                                         
+
+                             Map<Integer,List<String>> m4=Stream.of("lions","tigers","bears","toads","ape","lions")
+
+                                   .collect(Collectors.groupingBy((e)->e.length()));
+
+                             System.out.println(m4); //{3=[ape], 5=[lions, bears, toads, lions], 6=[tigers]}
+
+                            
+
+                             Map<Integer,Set<String>> m5=Stream.of("lions","tigers","bears","toads","ape","lions")
+
+                                                 .collect(Collectors.groupingBy((e)->e.length(),Collectors.toSet()));
+
+                                           System.out.println(m5); //{3=[ape], 5=[toads, lions, bears], 6=[tigers]}
+
+}
+
+}
+
+Handson
+
+1.Display Date
+
+ 
+
+Given a date in the form of string, write a program to convert the given string to date .
+
+Include a class UserMainCode with a static method displayDate which accepts a string. In this method display the given string in date format yyyy-MM-dd. The return type is void.
+
+ 
+
+Create a Class Main which would be used to accepts a string and call the static method present in UserMainCode.
+
+ 
+
+Input and Output Format:
+
+Input consists of a string.
+
+Output consists of Date.
+
+ 
+
+Refer sample output for formatting specifications.
+
+ 
+
+Sample Input 1:
+
+May 1, 2016
+
+Sample Output 1:
+
+2016-05-01
+
+ 
+
+Sample Input 2:
+
+March 21, 2016
+
+Sample Output 2:
+
+2016-03-21
+
+ 
+
+ 
+
+2.Extract Date and time
+
+ 
+
+Write a program to extract date and time from the input string which is in yyyy-MM-dd HH:mm:ss date format.
+
+ 
+
+Include a class UserMainCode with a static method displayDateTime which accepts a string. In this method display date and time in the format as given in sample input and output . The return type is void.
+
+ 
+
+Create a Class Main which would be used to accept string and call the static method present in UserMainCode.
+
+ 
+
+Input and Output Format:
+
+Input consists of a string.
+
+Output should be in date format
+
+ 
+
+Refer sample output for formatting specifications.
+
+ 
+
+Sample Input :
+
+ 
+
+Enter String in this format(yyyy-MM-DD HH:mm:ss)
+
+ 
+
+2016-07-14 09:00:02  
+
+Sample Output :
+
+ 
+
+07/14/2016, 9:00:02
+
+ 
+
+ 
+
+3.Day Of The Year
+
+ 
+
+Given a date, write a program to display day of the year.
+
+Include a class UserMainCode with a static method displayDay which accepts a date. In this
+
+method, display day in the format as given in sample input and output . The return type is void.?
+
+?Input date Format is yyyy-MM-dd
+
+ Create a Class Main which would be used to accept date and call the static method present in
+
+UserMainCode.?
+
+?
+
+Input and Output Format:?
+
+Input consists of a string.
+
+Refer sample output for formatting specifications.
+
+ 
+
+Sample Input :
+
+2013-03-23
+
+ 
+
+Sample Output :
+
+Day of year: 82
+
+ 
+
+ 
+
+4.Name Of the Day
+
+ 
+
+ 
+
+Given a date in the date format, write a program to get the day of the corresponding date .
+
+Include a class UserMainCode with a static method displayDay which accepts a date. In this method display the day of  given date . The return type is void.
+
+ 
+
+Create a Class Main which would be used to accept a date and call the static method present in UserMainCode.
+
+?Input date Format is yyyy-MM-dd 
+
+Input and Output Format:
+
+Input consists of a date.
+
+Refer sample output for formatting specifications.
+
+ 
+
+Sample Input 1:
+
+2011-10-21
+
+Sample Output 1:
+
+Friday
+
+ 
+
+Sample Input 2:
+
+2011-07-11
+
+Sample Output 2:
+
+Monday
+
+ 
+
+ 
+
+5.Difference between dates in month
+
+ 
+
+Given a method with two date strings in yyyy-mm-dd format as input. Write code to find the difference between two dates in months.
+
+ 
+
+Include a class UserMainCode with a static method getMonthDifference which accepts two date strings as input.
+
+ 
+
+The return type of the output is an integer which returns the diffenece between two dates in months.
+
+ 
+
+Create a class Main which would get the input and call the static method getMonthDifference present in the UserMainCode.
+
+ 
+
+Input and Output Format:
+
+Input consists of two date strings.
+
+Format of date : yyyy-mm-dd.
+
+ 
+
+Output is an integer.
+
+Refer sample output for formatting specifications.
+
+ 
+
+Sample Input 1:
+
+2012-03-01
+
+2012-04-16
+
+Sample Output 1:
+
+1
+
+ 
+
+ 
+
+Sample Input 2:
+
+2011-03-01
+
+2012-04-16
+
+Sample Output 2:
+
+13
+
+ 
+
+ 
+
+sorted() - intermediate - used to sort the elements
+
+ 
+
+public class Main {
+
+              public static void main(String...args) {
+
+                  List<String> l=List.of("9","A","z","1","B","4","e","f");
+
+                 
+
+                  List<String> l2=l.stream().sorted().collect(Collectors.toList());
+
+                  System.out.println(l2); //asc order [1, 4, 9, A, B, e, f, z]
+
+                 
+
+                  List<String> l3=l.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+
+                  System.out.println(l3); //desc order
+
+                 
+
+        List<Student> l1=new ArrayList<>();
+
+        l1.add(new Student(23,"PK"));
+
+        l1.add(new Student(26,"KK"));
+
+        l1.add(new Student(22,"MK"));
+
+        l1.add(new Student(21,"SK"));
+
+        l1.add(new Student(20,"AK"));
+
+        l1.add(new Student(33,"TK"));
+
+        l1.add(new Student(24,"BK"));
+
+        l1.add(new Student(25,"GK"));
+
+        l1.add(new Student(27,"DK"));
+
+       
+
+        //comparingInt(), comparingDouble(),comparingLong()
+
+        List<Student> l4=l1.stream().sorted(Comparator.comparingInt(Student::getId))
+
+                   .collect(Collectors.toList());
+
+        l4.forEach(System.out::println);  //sort student based on id in asc order
+
+        System.out.println();
+
+       
+
+        List<Student> l5=l1.stream().sorted(Comparator.comparing(Student::getName).reversed())
+
+                .collect(Collectors.toList());
+
+        l5.forEach(System.out::println);  //sort student based on name in desc order
+
+              }
+
+}
+
+ 
+
+ 
+
+Other ways to create stream
+
+1. builder() - create finite stream
+
+2. generate(Supplier) - create infinite stream
+
+3. iterate(int initialvalue, UnaryOperator) - create infinite stream
+
+ 
+
+Create streams based on primitive datatype
+
+1. IntStream - create stream based on int values
+
+2. DoubleStream - create stream based on double values
+
+3. LongStream - create stream based on long values
+
+ 
+
+Collectors.summarizingInt() - summarize all int info like count, max, min, avg, sum
+
+Collectors.summarizingDouble() - summarize all double info like count, max, min, avg, sum
+
+Collectors.summarizingLong() - summarize all long info like count, max, min, avg, sum
+
+ 
+
+From JDK1.9
+
+takeWhile(Predicate) - intermediate - if stream does not match the predicate, it will discard the rest of values
+
+dropWhile(Predicate)- intermediate - if stream does not match the predicate, it will print the rest of values
+
+ 
+
+public class Main {
+
+              public static void main(String...args) {
+
+                  Stream<String> st1=Stream.<String>builder().add("Ram").add("Sam").add("Tam").build();
+
+                  st1.forEach(System.out::println);
+
+                 
+
+                  Stream<Integer> st2=Stream.<Integer>builder().add(10).add(20).add(30).build();
+
+                  st2.forEach(System.out::println);
+
+                 
+
+                  Stream<String> st3=Stream.generate(()->"hello").limit(5);
+
+                  st3.forEach(System.out::println);
+
+                 
+
+                  Stream<Integer> st4=Stream.iterate(2, (i)->i*2).skip(2).limit(5);
+
+                  st4.forEach(System.out::println);
+
+                 
+
+                  IntStream i1=IntStream.range(1, 6);  //start to end-1
+
+                  i1.forEach(System.out::println); //1 2 3 4 5
+
+                 
+
+                  IntStream i2=IntStream.rangeClosed(1, 6);  //start to end
+
+                  i2.forEach(System.out::println); //1 2 3 4 5 6
+
+                 
+
+                  IntStream i3="ABCD".chars();
+
+                  i3.forEach(System.out::println); //65 66 67 68
+
+                 
+
+                  Random r=new Random();
+
+                  DoubleStream d1=r.doubles(5);
+
+                  d1.forEach(System.out::println);
+
+                 
+
+                  List<Student> l1=new ArrayList<>();
+
+        l1.add(new Student(23,"PK"));
+
+        l1.add(new Student(26,"KK"));
+
+        l1.add(new Student(22,"MK"));
+
+        l1.add(new Student(21,"SK"));
+
+        l1.add(new Student(20,"AK"));
+
+        l1.add(new Student(33,"TK"));
+
+        l1.add(new Student(24,"BK"));
+
+        l1.add(new Student(25,"GK"));
+
+        l1.add(new Student(27,"DK"));
+
+       
+
+        IntStream i4=l1.stream().mapToInt(Student::getId);
+
+        i4.forEach(System.out::println);
+
+       
+
+        OptionalInt op1=l1.stream().mapToInt(Student::getId).max();
+
+        System.out.println(op1.getAsInt());  //33
+
+       
+
+        OptionalDouble op2=l1.stream().mapToInt(Student::getId).average();
+
+        System.out.println(op2.getAsDouble()); //24.555555555555557
+
+       
+
+        int s=l1.stream().mapToInt(Student::getId).sum();
+
+        System.out.println(s);
+
+       
+
+        //IntSummaryStatistics, DoubleSummaryStatistics,LongSummaryStatistics
+
+        IntSummaryStatistics i5=l1.stream().collect(Collectors.summarizingInt(Student::getId));
+
+        System.out.println(i5);
+
+        System.out.println(i5.getSum()+" "+i5.getCount());
+
+       
+
+       // DoubleSummaryStatistics d2=l1.stream().collect(Collectors.summarizingDouble(Employee::getSalary));
+
+       
+
+        Stream.of(2,4,6,8,9,10,12).takeWhile(e->e%2==0).forEach(System.out::println); //2 4 6 8
+
+        Stream.of(2,4,6,8,9,10,12).dropWhile(e->e%2==0).forEach(System.out::println); //9 10 12
+
+              }
+
+}
+
+ 
+
+ParallelStream
+
+    - We want to access the stream elements parallelly
+
+    - If we create stream using of(), then to access parallelly we have to use parallel()
+
+    - If we create stream from some source by stream(), then to access parallelly we have to use parallelStream()
+
+ 
+
+public class Main {
+
+              public static void main(String...args) {
+
+                  /*Stream.of(1,2,3,4,5,6,7,8,9).forEach(n -> {
+
+                             System.out.println(Thread.currentThread().getName()+" "+n);
+
+                  });*/
+
+                 
+
+                 /* Stream.of(1,2,3,4,5,6,7,8,9).parallel().forEach(n -> {
+
+                             System.out.println(Thread.currentThread().getName()+" "+n);
+
+                  }); */
+
+                            
+
+                            /*Stream.of(1,2,3,4,5,6,7,8,9).parallel().forEachOrdered(n -> {
+
+                             System.out.println(Thread.currentThread().getName()+" "+n);
+
+                  });*/
+
+                            
+
+                             List<Integer> l1=List.of(1,2,3,4,5,6,7,8,9);
+
+                             l1.parallelStream().forEachOrdered(n -> {
+
+                             System.out.println(Thread.currentThread().getName()+" "+n);
+
+                  });
+
+              }
+
+}
+
+ 
+
+ 
+
+Before JDK1.8, Date class is present in java.util.* package
+
+ 
+
+1. Date class
+
+     - print current date and time
+
+1. Date() - print current date and time
+
+2. Date(long msec) - print date and time from Jan 1st 1970
+
+ 
+
+2. Calendar class
+
+       - abstract class, used to extract useful components from date and time
+
+ 
+
+3. GregorianCalendar class - it is concrete implementation(we can create an object) of Calendar class, used to extract useful components from date and time
+
+ 
+
+4. DateFormat class - present in java.text.* package
+
+       - abstract class, used for formatting(convert date to string and display in different format like SHORT, MEDIUM, LONG, FULL) and parsing(convert string to date)
+
+ 
+
+5. SimpleDateFormat - present in java.text.* package
+
+       - concrete implementation(we can create an object) of DateFormat class, used for formatting(convert date to string and display in different format like SHORT, MEDIUM, LONG, FULL and also our own format) and parsing(convert string to date)
+
+ 
+
+public class Main {
+
+              public static void main(String...args) {
+
+                  Date d1=new Date();
+
+                  System.out.println(d1); //Mon Sep 01 11:53:15 IST 2025
+
+                  Date d2=new Date(1000000);
+
+                  System.out.println(d2); //Thu Jan 01 05:46:40 IST 1970
+
+                 
+
+                  Calendar c=Calendar.getInstance();  //current date and time
+
+                  System.out.println(c.get(Calendar.YEAR));  //2025
+
+                  System.out.println(c.get(Calendar.MONTH)); //8 starts from 0
+
+                 
+
+                  String month[]= {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+
+                  System.out.println(month[c.get(Calendar.MONTH)]); //Sep
+
+                  System.out.println(c.get(Calendar.DAY_OF_MONTH));  //1
+
+                  System.out.println(c.get(Calendar.DAY_OF_YEAR)); //244
+
+                 
+
+                  //GregorianCalendar g=new GregorianCalendar(); //current date and time
+
+                  GregorianCalendar g=new GregorianCalendar(2000,10,23,13,14,15);
+
+                  System.out.println(g.get(Calendar.MINUTE)); //14
+
+                  System.out.println(g.get(Calendar.YEAR)); //2000
+
+                 
+
+                  DateFormat df=DateFormat.getInstance();  //default in SHORT style
+
+                  System.out.println(df.format(d1));
+
+                 
+
+                  DateFormat df1=DateFormat.getDateInstance();  //default in MEDIUM style
+
+                  System.out.println(df1.format(d1));
+
+                 
+
+                  DateFormat df2=DateFormat.getDateInstance(DateFormat.LONG); 
+
+                  System.out.println(df2.format(d1));
+
+                  df2=DateFormat.getTimeInstance();  //default in MEDIUM style
+
+                  System.out.println(df2.format(d1));
+
+                  df2=DateFormat.getTimeInstance(DateFormat.FULL);
+
+                  System.out.println(df2.format(d1));
+
+                  df2=DateFormat.getDateTimeInstance();  //default date and time in MEDIUM style
+
+                  System.out.println(df2.format(d1));
+
+                  df2=DateFormat.getDateTimeInstance(DateFormat.LONG,DateFormat.FULL);
+
+                  System.out.println(df2.format(d1));
+
+                 
+
+                  SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+
+                  String str="10/12/2000";
+
+        try {
+
+               Date d3=sdf.parse(str);
+
+               System.out.println(d3);
+
+               System.out.println(sdf.format(d3));
+
+        }catch(ParseException e) {
+
+               System.out.println(e);
+
+        }
+
+              }
+
+}
+
+ 
+
+ 
+
+ 
+
+Date API
+
+   - Available from JDK1.8
+
+   - present in java.time.* package
+
+   - Date is immutable class whereas lower version of date is mutable
+
+ 
+
+class and interface
+
+1. LocalDate class - print only date in yyyy-MM-dd format
+
+2. TemporalAdjuster interface - used to get extra info abt date and time - we have to use with()
+
+3. LocalTime class - print only time in hh:mm:ss format
+
+4. LocalDateTime class - print both date and time
+
+5. Period class - used to find difference between 2 dates
+
+6. Duration class - used to find difference between 2 time
+
+7. DateTimeFormatter interface - used to print date and time in our own format
+
+ 
+
+ 
+
+public class Main {
+
+              public static void main(String...args) {
+
+                  LocalDate l1=LocalDate.now();  //current date
+
+                  System.out.println(l1); //2025-09-01
+
+                 
+
+                  Clock c=Clock.systemDefaultZone();
+
+                  LocalDate l2=LocalDate.now(c);
+
+                  System.out.println(l2);
+
+                 
+
+                  ZoneId z=ZoneId.of("America/Chicago");
+
+                  LocalDate l3=LocalDate.now(z);
+
+                  System.out.println(l3);
+
+                 
+
+                  LocalDate l4=LocalDate.of(2000, 10, 20); //create our own date
+
+                  System.out.println(l4); //2000-10-20
+
+                 
+
+                  LocalDate l5=LocalDate.parse("2000-10-20"); //convert string to date
+
+                  System.out.println(l5);
+
+                 
+
+                  LocalDate l6=l5.plusMonths(2);
+
+                  System.out.println(l6); //2000-12-20
+
+                  LocalDate l7=l6.plus(4, ChronoUnit.YEARS);
+
+                  System.out.println(l7); //2004-12-20
+
+                  LocalDate l8=l7.minusDays(200);
+
+                  System.out.println(l8); //2004-06-03
+
+                  LocalDate l9=l8.minus(10, ChronoUnit.WEEKS);
+
+                  System.out.println(l9);
+
+                 
+
+                  DayOfWeek d1=LocalDate.parse("2025-09-01").getDayOfWeek();
+
+                  System.out.println(d1); //Monday
+
+                  int m1=LocalDate.parse("2025-09-01").getDayOfMonth();
+
+                  System.out.println(m1);  //1
+
+                  int y1=LocalDate.parse("2025-09-01").getDayOfYear();
+
+                  System.out.println(y1); //244
+
+                 
+
+                  System.out.println(l9.isLeapYear());
+
+                  boolean b1=LocalDate.parse("2025-09-01").isAfter(LocalDate.parse("2025-08-01"));
+
+                  System.out.println(b1); //true
+
+                  boolean b2=LocalDate.parse("2025-09-01").isBefore(LocalDate.parse("2025-08-01"));
+
+                  System.out.println(b2); //false
+
+                  boolean b3=LocalDate.parse("2025-09-01").isEqual(LocalDate.parse("2025-08-01"));
+
+                  System.out.println(b3); //false
+
+                 
+
+                  LocalDate l10=LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());
+
+                  System.out.println(l10); //2025-09-01
+
+                  LocalDate l11=LocalDate.now().with(TemporalAdjusters.lastDayOfMonth());
+
+                  System.out.println(l11); //2025-09-30
+
+                  LocalDate l12=LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.WEDNESDAY));
+
+                  System.out.println(l12); //2025-09-03
+
+                  LocalDate l13=LocalDate.now().with(TemporalAdjusters.previous(DayOfWeek.SUNDAY));
+
+                  System.out.println(l13); //2025-08-31
+
+                 
+
+                  LocalTime t1=LocalTime.now(); //current time
+
+                  System.out.println(t1);
+
+                  LocalTime t2=LocalTime.now(c);
+
+                  System.out.println(t2);
+
+                  LocalTime t3=LocalTime.now(z);
+
+                  System.out.println(t3);
+
+                 
+
+                  LocalTime t4=LocalTime.of(9, 30);  //create our own time
+
+                  System.out.println(t4); //09:30
+
+                  LocalTime t5=LocalTime.parse("09:30"); //convert string to time
+
+                  System.out.println(t5);
+
+                 
+
+                  LocalTime t6=t5.plusMinutes(20);
+
+                  System.out.println(t6);
+
+                  LocalTime t7=t6.plus(4, ChronoUnit.HOURS);
+
+                  System.out.println(t7);
+
+                  LocalTime t8=t7.minusSeconds(2000);
+
+                  System.out.println(t8);
+
+                  LocalTime t9=t8.minus(20000,ChronoUnit.NANOS);
+
+                  System.out.println(t9);
+
+                  System.out.println(LocalTime.MAX);
+
+                  System.out.println(LocalTime.MIN);
+
+                  System.out.println(LocalTime.MIDNIGHT);
+
+                 
+
+                  LocalDateTime ld1=LocalDateTime.now();  //current date and time
+
+                  System.out.println(ld1); //2025-09-01T12:36:24
+
+                  LocalDateTime ld2=LocalDateTime.of(LocalDate.now(),LocalTime.now());
+
+                  System.out.println(ld2);
+
+                  LocalDateTime ld3=LocalDateTime.parse("2025-01-02T10:20:30");
+
+                  System.out.println(ld3);
+
+                  System.out.println(ld3.toLocalDate());
+
+                  System.out.println(ld3.toLocalTime());
+
+                  System.out.println(LocalDateTime.MAX);
+
+                  System.out.println(LocalDateTime.MIN);
+
+                 
+
+                  //convert JDK1.5 Date to LocalDate
+
+                  Date dt=new Date();
+
+                  LocalDateTime ld4=LocalDateTime.ofInstant(dt.toInstant(), ZoneId.systemDefault());
+
+                  System.out.println(ld4);
+
+                 
+
+                  //convert Calendar to LocalDate
+
+                  Calendar c2=Calendar.getInstance();
+
+                  LocalDateTime ld5=LocalDateTime.ofInstant(c2.toInstant(), ZoneId.systemDefault());
+
+                  System.out.println(ld5);
+
+                 
+
+                  LocalDate l14=LocalDate.now();
+
+                  LocalDate l15=LocalDate.of(2000, 10, 20);
+
+                  int diff=Period.between(l14, l15).getDays();
+
+                  System.out.println(diff);
+
+                  int diff1=Period.between(l14, l15).getYears();
+
+                  System.out.println(diff1);
+
+                  long l=ChronoUnit.MONTHS.between(l14, l15);
+
+                  System.out.println(l);
+
+                 
+
+                  LocalTime t10=LocalTime.now();
+
+                  LocalTime t11=LocalTime.of(9, 30);
+
+                  long du1=Duration.between(t10, t11).getSeconds();
+
+                  System.out.println(du1);
+
+                  long du2=Duration.between(t10, t11).toMinutes();
+
+                  System.out.println(du2);
+
+                  long du3=Duration.between(t10, t11).toHours();
+
+                  System.out.println(du3);
+
+                  long du4=ChronoUnit.MINUTES.between(t10, t11);
+
+                  System.out.println(du4);
+
+                 
+
+                  LocalDateTime ld6=LocalDateTime.now();
+
+                  System.out.println(ld6);
+
+                  String s1=ld6.format(DateTimeFormatter.ISO_DATE_TIME);
+
+                  System.out.println(s1);
+
+                  String s2=ld6.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+
+                  System.out.println(s2);
+
+                  String s3=ld6.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+
+                  System.out.println(s3);
+
+                  String s4=ld6.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.LONG));
+
+                  System.out.println(s4);
+
+                  String s5=ld6.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL,FormatStyle.SHORT));
+
+                  System.out.println(s5);
+
+              }
+
+}
+
+ 
+
+ 
+
+Optional class
+
+    - objects will contain memory reference or null reference, so if we access anything with null reference we get NullPointerException
+
+    - To avoid unexpected NPE we have to write some logic to do null check, so in order to avoid unpredictable NPE we can use a class called Optional class
+
+    - present in java.util.* package
+
+ 
+
+Methods
+
+1. static Optional empty() - create empty optional
+
+2. static Optional of(T...t) - return non empty optional, if value is null it returns NPE
+
+3. static Optional ofNullable(T...t) - return non empty optional, if value is null it returns Optional.empty
+
+4. Object get() - return original value from Optional object
+
+5. boolean isPresent() - return true if value is present otherwise false
+
+6. void ifPresent(Consumer) - if value is present then it invokes the Consumer object
+
+7. Object orElse(object) - return the value if present otherwise it returns other value
+
+8. Object orElseGet(Supplier) - return the value if present otherwise it invokes another logic defined by Supplier and return the result
+
+9. Object orElseThrow(Supplier) - return the value if present otherwise it throws an exception
+
+ 
+
+ 
+
+public class Main {
+
+              public static void main(String...args) throws Throwable {
+
+                  Optional op1=Optional.empty();
+
+                  System.out.println(op1); //Optional.empty
+
+                  Optional op2=Optional.of("John");
+
+                  System.out.println(op2); //Optional[John]
+
+                  //Optional op2=Optional.of(null);
+
+                  //System.out.println(op2); //NPE
+
+                 
+
+                  Optional op3=Optional.ofNullable("Jim");
+
+                  System.out.println(op3);//Optional[Jim]
+
+                  Optional op4=Optional.ofNullable(null);
+
+                  System.out.println(op4); //Optional.empty
+
+                 
+
+                  Optional op5=Optional.ofNullable("Jimmy");
+
+                  System.out.println(op5);//Optional[Jimmy]
+
+                  System.out.println(op5.get()); //Jimmy
+
+                  Optional op6=Optional.of("Jack");
+
+                  System.out.println(op6.get()); //Jack
+
+                  System.out.println(op6.isPresent());  //true
+
+                  Optional op7=Optional.empty();
+
+                  System.out.println(op7.isEmpty());  //true
+
+                  System.out.println(op7.isPresent());  //false
+
+                 
+
+                  Optional op8=Optional.of("Johny");
+
+                 // System.out.println(op8.get()); //Johny
+
+                  op8.ifPresent(System.out::println); //Johny
+
+                 
+
+                  Optional op9=Optional.empty();
+
+                  System.out.println(op9); //optional.empty
+
+                  System.out.println(op9.orElse("Peter")); //Peter
+
+                  System.out.println(op9.orElseGet(()->"Tim")); //Tim
+
+                  System.out.println(op9.orElseThrow(NullPointerException::new));
+
+                 
+
+                  
+
+                  
+
+              }
+
+}
+
+Handson
+
+Given list of employees
+
+ 
+
+List<Employee> employees = Arrays.asList(
+
+            new Employee(101, "Roopa", "IT", 65000, LocalDate.of(2021, 5, 10)),
+
+            new Employee(102, "Senthil", "HR", 45000, LocalDate.of(2018, 1, 20)),
+
+            new Employee(103, "Arun", "Finance", 55000, LocalDate.of(2022, 7, 5)),
+
+            new Employee(104, "Kumar", "IT", 75000, LocalDate.of(2019, 3, 14)),
+
+            new Employee(105, "Priya", "Finance", 60000, LocalDate.of(2020, 9, 25))
+
+        );
+
+ 
+
+1. Find Employees who joined after 2020
+
+2. Sort employees by salary using Lambda
+
+3. Group employees by department
+
+4. Get average salary of all employees
+
+5. Find highest paid employee
+
+6. Calculate years of experience using Date API
+
+7. Create a comma-separated string of all employee names
+
+8. Find Employees earning more than 60,000
+
+ 
+
+Default and Static methods in Interface
+
+    - Till JDK1.7, the interface will contain only abstract method and public static final variables
+
+    - From JDK1.8 onwards apart from abstract method, the interface can also contain default and static method
+
+    - why default method?
+
+           without affecting the implemented classes, if we want to add any new methods inside the interface then we can go for default method
+
+    - why static method?
+
+            If my functionality is no way related to the class (ie) static method, instead of defining inside the class we can define inside the interface and access it using "interfacename.methodname"
+
+    - From JDK1.9 onwards, the interface can also contain private and private static methods, if we have common functionalities inside default method and to avoid duplication of code, we can define those common functionalities inside private mthod and access it whenever it is needed inside default method
+
+ 
+
+interface A {
+
+              default void show() {
+
+                             System.out.println("Inside A's show method");
+
+              }
+
+}
+
+interface B {
+
+              default void show() {
+
+                             System.out.println("Inside B's show method");
+
+              }
+
+}
+
+class C implements A,B {
+
+ 
+
+              @Override
+
+              public void show() {
+
+                             A.super.show();
+
+                             B.super.show();
+
+              }
+
+             
+
+}
+
+public class Main {
+
+              public static void main(String...args)  {
+
+                  C c=new C();
+
+                  c.show();
+
+                 
+
+              }
+
+}
+
+ 
+
+Interface access members
+
+1. Accessible from default and private methods within interface
+
+      constant variable = yes
+
+      abstract method = yes
+
+      another default method = yes
+
+      private method=yes
+
+      static method = yes
+
+      private static method=yes
+
+ 
+
+2. Accessible from static methods within interface
+
+      constant variable = yes
+
+      abstract method = NO
+
+      another default method = NO
+
+      private method=NO
+
+      static method = yes
+
+      private static method=yes
+
+ 
+
+3. Accessible from instance method by implementing the interface
+
+      constant variable = yes
+
+      abstract method = yes
+
+      default method = yes
+
+      private method=NO
+
+      static method = yes
+
+      private static method=no
+
+ 
+
+4. Accessible outside interface without implementing the interface
+
+      constant variable = yes
+
+      abstract method = no
+
+      default method = no
+
+      private method=NO
+
+      static method = yes
+
+      private static method=no
+
+ 
+
+ 
+
+interface MyInterface {
+
+              //Till JDK1.7
+
+    /*public static final*/ int CONSTANT=0;
+
+     /*public abstract*/ int abstractMethod();
+
+    
+
+     //From JDK1.8
+
+     /*public*/ default int defaultMethod() {
+
+                abstractMethod();
+
+                staticMethod();
+
+                privateMethod();
+
+                privateStaticMethod() ;
+
+                  return CONSTANT;
+
+     }
+
+     /*public*/ static int staticMethod() {
+
+                staticMethod();
+
+                privateStaticMethod();
+
+                return CONSTANT;
+
+     }
+
+    
+
+     //From JDK1.9
+
+     private int privateMethod() {
+
+                abstractMethod();
+
+                staticMethod();
+
+                privateStaticMethod();
+
+                defaultMethod();
+
+                return CONSTANT;
+
+     }
+
+     private static int privateStaticMethod() {
+
+                staticMethod();
+
+                return CONSTANT;
+
+     }
+
+}
+
+class Sample implements MyInterface {
+
+ 
+
+              @Override
+
+              public int abstractMethod() {
+
+                             defaultMethod();
+
+                             MyInterface.staticMethod();
+
+                             return CONSTANT;
+
+              }
+
+             
+
+}
+
+class Sample1  {
+
+              public int instanceMethod() {
+
+                             MyInterface.staticMethod();
+
+                             return MyInterface.CONSTANT;
+
+              }
+
+}
+
+public class Main {
+
+              public static void main(String...args)  {
+
+                
+
+                  
+
+              }
+
+}
+
+ 
+
+ 
+
+var keyword
+
+     - Available from JDK10
+
+     - used to infer the datatype at runtime based on the value
+
+          int a=10;
+
+          var a1="hello";  //String
+
+          var a2=3.13;  //double
+
+          var a3=2.14f; //float
+
+     - used only inside methods, constructors, compound/instance block and loops
+
+ 
+
+Rules
+
+1. var cant declare without initial value
+
+2. var can be declared in first line and initialized in second line
+
+3. var cannot be initialized with null value without the type
+
+4. var is not permitted in multiple variable declaration
+
+5. var cannot be used to initialize an array
+
+6. var is a reserved type but not keyword, so we can use var as an identifier except for class, interface and enum
+
+7. var in lambda expr, but you cant mix var and non var parameters
+
+ 
+
+/*class var {      //error
+
+}
+
+interface var {   //error
+
+}
+
+enum var{          //error
+
+}*/
+
+ 
+
+class Var {
+
+              Var() {
+
+                             var var="var"; //correct
+
+              }
+
+              public void var() {  //correct
+
+                             Var var=new Var();
+
+              }
+
+              /*public void var(var v) {  //error, parameter type cant be var
+
+                             Var var=new Var();
+
+              }*/
+
+}
+
+ 
+
+interface Operation1 {
+
+              void add(int a,int b);
+
+}
+
+public class Main {
+
+              Main() {
+
+                             var a1=10;
+
+              }
+
+              { //compound block
+
+                             var a2="hello";
+
+              }
+
+              public static void main(String...args)  {
+
+                  var c=3.14;
+
+                  for(var i=0;i<5;i++) {
+
+                             System.out.println(i);
+
+                  }
+
+                 
+
+                 // var c1; //error
+
+                  var c1=2;
+
+                  var x
+
+                       =3;
+
+                  //var x1=null;  //error
+
+                  var x1="hello";
+
+                  x1=null;
+
+                  var x2=(String) null;
+
+                 
+
+                  int a=10,b=20;
+
+                  //var y1=10,y2=20;  //error
+
+                  //var y1[]= {1,2,3}; //error
+
+                 
+
+                  Operation1 m1=(var x11,var x21) -> System.out.println(x11+x21); //correct
+
+                  Operation1 m2=(var x11,int x21) -> System.out.println(x11+x21); //error
+
+              }
+
+}
+
+ 
+
+ 
+
+J2SE - Java 2 Standard Edition - develop system/networking project
+
+J2EE - Java 2 Enterprise Edition - develop web oriented appl
+
+J2ME - Java 2 Micro/Mobile Edition
+
+ 
+
+J2EE - Java 2 Enterprise Edition - develop web oriented appl - traditional approach
+
+J2EE Components - 3 components
+
+1. JSP(Java Server Pages) - HTML + Java - used to create dynamic web pages
+
+2. Servlet - java prg used to write business logic
+
+3. EJB(Enterprise Java Bean)- EJB2.X/EJB3.X - used to develop enterprise appl - 3 types
+
+    1. Session bean - write business logic
+
+    2. Entity bean - persist data into db
+
+    3. Message Driven bean - send sync and async message between servers
+
+ 
+
+Problems with traditional approach
+
+1. J2EE applications tend to contain excessive amounts of "plumbing" code -> Thers would always be a high proportion of code that doesn't do anything: JNDI lookup code, Transfer Objects, try/catch blocks to acquire and release JDBC resources. Writing and maintaining such plumbing code proves a major drain on resources that should be focused on the application's business domain.
+
+ 
+
+2. J2EE applications are hard to unit test -> The J2EE APIs, especially, the EJB component model, does not take into account ease of unit testing. It is very difficult to test applications based on EJB and many other J2EE APIs outside an application server.
+
+ 
+
+3. Certain J2EE technologies have failed in performance. EJB 2.x, for instance -> The main offender here is entity beans, which have proven little short of disastrous for productivity.
+
+ 
+
+J2EE Frameworks
+
+There are many frameworks which claim to resolve the issues mentioned earlier. For instance, Struts.
+
+ 
+
+Struts is a web framework which works on the web tier(client part) and helps us achieve MVC and is doing pretty well in the market. However Spring takes over struts in that it is not just a web framework but an application framework(develop entire appl (ie) client+server+database)
+
+ 
+
+Unlike single-tier frameworks such as Struts(web part) or Hibernate(db part), Spring aims to help structure whole applications in a consistent, productive manner. It has 7 modules that offer services for use throughout an application.
+
+ 
+
+The essence of Spring is in providing enterprise services to Plain Old Java Objects (POJOs). This is valuable in a J2EE environment.
+
+ 
+
+Spring framework(7.x)
+
+     - open source, used to develop both standalone(Java based) and web appl
+
+     - It is a framework, so we have to download all jar files and put inside appl
+
+ 
+
+Features
+
+1. Reduce glue code/plumbing work
+
+Spring Framework takes lot of load off the programmer by providing dependencies when required and by using AOP(Aspect Oriented Programming) - define cross cutting functionality(common functionality like security, transaction, logging, exception handling etc) in single place and access it whenever it is needed using Aspect
+
+ 
+
+2. Externalize dependencies - Inversion of Control(IOC) - Dependency Injection
+
+Dependencies are described in a separate file (xml) rather than mixing it with the business logic code itself. This gives a better control over the application.
+
+    - Loosely coupled appl - inject the value at runtime in separate xml file
+
+ 
+
+class Person {
+
+   Integer id;
+
+   String name;
+
+   Address address;
+
+}
+
+Address a =new Address();
+
+Person p=new Person();  //tightly coupled appl
+
+p.id=1;
+
+p.name="Ram";
+
+p.address=a;
+
+ 
+
+3. Manage dependencies at a single place - all bean prg is configured in single xml file
+
+Dependencies can be managed better due to this.
+
+ 
+
+4. Improve testability
+
+Actual code can easily be replaced by a stub for testing purposes.
+
+ 
+
+5. Foster good application design
+
+Since the actual implementation sits behind the interfaces, it fosters good application design.
+
+ 
+
+6. Flexibility
+
+Spring offers integration points with several other frameworks. So, you do not have to write them yourself.
+
+ 
+
+7 modules
+
+1. Spring core module
+
+      - Support only IOC feature
+
+      - Using BeanFactory interface
+
+ 
+
+2. Spring Context module
+
+      - Support IOC feature + support internationalization, lifecycle events, remoting, scheduling, email, integrate with Velocity, FreeMarker, EJB etc
+
+      - Using ApplicationContext interface
+
+ 
+
+3. Spring AOP(Aspect Oriented Programming) module
+
+      - define cross cutting functionality(common functionality like security, transaction, logging, exception handling etc) in single place and access it whenever it is needed using Aspect
+
+ 
+
+4. Spring DAO(Data Access Object) module
+
+       - Spring itself provides inbuilt interface and classes to communicate with db like JdbcTemplate, RowMapper etc
+
+ 
+
+5. Spring ORM(Object Relational Mapping) module
+
+       - used to integrate Spring with ORM frameworks like Hibernate, iBatis, JDO, Toplink
+
+ 
+
+6. Spring webflow module
+
+       - used to integrate Spring with Struts framework
+
+ 
+
+7. Spring MVC module
+
+       - used to develop web tier based on MVC architecture using Spring itself
+
+ 
+
+ 
+
+Inversion of Control(IOC)
+
+Dependency Injection
+
+     - Objects are given their dependencies at runtime in separate xml file
+
+ 
+
+3 types
+
+1. Setter injection - Spring
+
+      - dependencies are configured through beans setter method for their properties by using <property> tag in xml file
+
+ 
+
+2. Constructor injection - Spring
+
+      - dependencies are configured through beans constructor for their properties by using <constructor-arg> tag in xml file
+
+ 
+
+3. Interface injection - Avalon
+
+      - dependencies are configured through beans interface for their properties
+
+ 
+
+Spring IOC container - 2 types of container to perform DI
+
+1. BeanFactory interface
+
+       - org.springframework.beans.factory.* package
+
+       - It is lazy loading
+
+       - used to create and destroy the bean
+
+       - Uses XmlBeanFactory(Resource) class - used to load all beans defined in xml file
+
+       - Object getBean(String)/Object getBean(Object) - used to instantiate the bean at runtime and performs DI
+
+ 
+
+2. ApplicationContext interface
+
+       - org.springframework.context.* package
+
+       - It is eager loading
+
+       - used to create and destroy the bean    
+
+       - 3 classes
+
+1. ClassPathXmlApplicationContext(String xmlfile) - loads xml file present in classpath (ie) in src folder
+
+2. FileSystemXmlApplicationContext(String xmlfile) - loads xml file present in filesystem (ie) in project folder or c:/ or d:/
+
+3. WebXmlApplicationContext(String xmlfile) - loads xml file from web.xml
+
+ 
+
+3 program
+
+1. Bean prg - simple POJO class that contains getter and setter
+
+2. xml file - configure bean prg in xml file to perform DI
+
+3. main prg
+
+ 
+
+ 
+
+Apache maven
+
+    - It is project development tool, instead of downloading jar file manually, maven will download all jar files from internet on behalf of user
+
+    - pom(project object model).xml - we have to provide related dependency
+
+    - 2 repository
+
+1. Remote repository - for first time alone maven will download all jar files remotely present in internet and put in local repo
+
+2. Local repository - maven will internally create a repo locally in ur machine (ie) C:\Users\urname\.m2
+
+   
+
+1. Download apache maven
+
+ 
+
+              apache-maven-3.9.11-bin.zip
+
+ 
+
+2. Extract zip file
+
+ 
+
+3. Set env variables
+
+ 
+
+In search - Type "env" - Select "Edit env variables for ur account" - Click "New" in user variablle
+
+ 
+
+Variable name: MAVEN_HOME
+
+Variable value: C:\Softwares\apache-maven-3.6.3
+
+ 
+
+click ok
+
+ 
+
+- Select Path - Click Edit - Click New - Paste "C:\Softwares\apache-maven-3.6.3\bin"
+
+ 
+
+Click ok
+
+Click ok
+
+ 
+
+4. Open cmd prompt
+
+ 
+
+C:\Users\senthil.kumart>mvn --version
+
+Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
+
+Maven home: C:\Softwares\apache-maven-3.6.3\bin\..
+
+Java version: 21.0.2, vendor: Oracle Corporation, runtime: C:\Softwares\openjdk-21.0.2_windows-x64_bin\jdk-21.0.2
+
+Default locale: en_US, platform encoding: UTF-8
+
+OS name: "windows 11", version: "10.0", arch: "amd64", family: "windows"
+
+ 
+
+It will create local repo in ur machine
+
+Handson
+
+ 
+
+1. A company wants to send notifications via Email, SMS, and Push Notifications.
+
+ 
+
+-Create an interface MessageService and three implementations (EmailService, SMSService, PushNotificationService).
+
+-Autowire one of them into NotificationManager.
+
+-Resolve the ambiguity by using @Qualifier.
+
+ 
+
+Task: Configure so that only PushNotificationService is injected by default.
+
+ 
+
+2. Your app should support sending all available notifications at once (Email + SMS + Push).
+
+ 
+
+Task:
+
+a. Modify NotificationManager to accept List<MessageService> or Map<String, MessageService>.
+
+b. Autowire all beans and iterate to send multiple notifications.
+
+ 
+
+@Autowired
+
+    - used to inject one bean into an another bean automatically, always perform based on byType
+
+    - used only above setter methods or constructor or fields(variables)
+
+ 
+
+public class Venue {
+
+   private String venueId;
+
+   private String name;
+
+   private String location;
+
+public Venue(String venueId, String name, String location) {
+
+              super();
+
+              this.venueId = venueId;
+
+              this.name = name;
+
+              this.location = location;
+
+}
+
+public Venue() {
+
+              super();
+
+              // TODO Auto-generated constructor stub
+
+}
+
+@Override
+
+public String toString() {
+
+              return "Venue [venueId=" + venueId + ", name=" + name + ", location=" + location + "]";
+
+}
+
+  
+
+   
+
+}
+
+ 
+
+ 
+
+public class Event {
+
+    private Integer eid;
+
+    private String name;
+
+    @Autowired
+
+    private Venue venue;
+
+   
+
+    //@Autowired
+
+              public Event(Integer eid, String name, Venue venue) {
+
+                             super();
+
+                             this.eid = eid;
+
+                             this.name = name;
+
+                             this.venue = venue;
+
+              }
+
+              public Event() {
+
+                             super();
+
+                             // TODO Auto-generated constructor stub
+
+              }
+
+             
+
+             
+
+              public Event(Integer eid, String name) {
+
+                             super();
+
+                             this.eid = eid;
+
+                             this.name = name;
+
+              }
+
+              @Override
+
+              public String toString() {
+
+                             return "Event [eid=" + eid + ", name=" + name + ", venue=" + venue + "]";
+
+              }
+
+   
+
+    
+
+}
+
+ 
+
+ 
+
+   @Bean
+
+              public Venue venue() {
+
+                             return new Venue("100","Nehru Stadium","Chennai");
+
+              }
+
+              @Bean
+
+              public Event event() {
+
+                             return new Event(1000,"Cricket");
+
+              }
+
+ 
+
+ 
+
+public class Main {
+
+              public static void main(String[] args) {               
+
+                             ApplicationContext ctx=new AnnotationConfigApplicationContext(BeanConfiguration.class);
+
+                             Event e=(Event)ctx.getBean(Event.class);
+
+                             System.out.println(e);
+
+              }
+
+}
+
+ 
+
+@Qualifier
+
+     - If same bean is configured multiple times, which bean class has to be injected while using @Autowired is decided using @Qualifier
+
+ 
+
+ 
+
+   @Bean
+
+              public Venue venue() {
+
+                             return new Venue("100","Nehru Stadium","Chennai");
+
+              }
+
+              @Bean
+
+              public Venue venue1() {
+
+                             return new Venue("101","Nehru Stadium","Delhi");
+
+              }
+
+              @Bean
+
+              public Event event() {
+
+                             return new Event(1000,"Cricket");
+
+              }
+
+ 
+
+public class Event {
+
+    private Integer eid;
+
+    private String name;
+
+    @Autowired
+
+    @Qualifier("venue1")
+
+    private Venue venue;
+
+   
+
+    //@Autowired
+
+              public Event(Integer eid, String name, Venue venue) {
+
+                             super();
+
+                             this.eid = eid;
+
+                             this.name = name;
+
+                             this.venue = venue;
+
+              }
+
+              public Event() {
+
+                             super();
+
+                             // TODO Auto-generated constructor stub
+
+              }
+
+             
+
+             
+
+              public Event(Integer eid, String name) {
+
+                             super();
+
+                             this.eid = eid;
+
+                             this.name = name;
+
+              }
+
+              @Override
+
+              public String toString() {
+
+                             return "Event [eid=" + eid + ", name=" + name + ", venue=" + venue + "]";
+
+              }
+
+   
+
+    
+
+}
+
+ 
+
+MVC architecture
+
+client request - Controller prg(used to handle request and response) - Service prg(write business logic) - Repository - Database
+
+ 
+
+Sterotype annotations
+
+1. @Controller - it indicate it is a controller prg
+
+2. @Service - it indicate it is a service prg
+
+3. @Repository - it indicate it is a repository prg
+
+4. @Component - used to refer single bean prg so that it can be injected into other prg using @Autowired
+
+ 
+
+BeanFactory is lazy loading - it creates the bean only when we call getBean()
+
+ 
+
+ApplicationContext is eager loading - preloads all the bean at the time of startup itself, so we have to convert ApplicationContext to lazy loading - 2 ways
+
+1. by lazy-init="true" in xml file
+
+2. @Lazy annotation
+
+ 
+
+ 
+
+public class Sample1 {
+
+ 
+
+              public Sample1() {
+
+                             System.out.println("Sample1 bean created");
+
+              }
+
+ 
+
+}
+
+ 
+
+public class Sample2 {
+
+    private Sample1 sample1; //referring another bean
+
+ 
+
+              public Sample1 getSample1() {
+
+                             return sample1;
+
+              }
+
+ 
+
+              public void setSample1(Sample1 sample1) {
+
+                             this.sample1 = sample1;
+
+              }
+
+ 
+
+              public Sample2() {
+
+                             System.out.println("Sample2 bean created");
+
+              }
+
+   
+
+    
+
+}
+
+ 
+
+<bean id="sample1" class="com.pack.Sample1" lazy-init="true"/>
+
+    <bean id="sample2" class="com.pack.Sample2" lazy-init="true">
+
+        <property name="sample1" ref="sample1"/>
+
+    </bean>
+
+ 
+
+@Configuration
+
+@Lazy
+
+public class BeanConfiguration {
+
+              @Bean
+
+              public Sample1 sample1() {
+
+                             return new Sample1();
+
+              }
+
+              @Bean
+
+              public Sample2 sample2() {
+
+                             return new Sample2();
+
+              }
+
+}
+
+ 
+
+ 
+
+public class Main {
+
+              public static void main(String[] args) {               
+
+                             /*Resource res=new FileSystemResource("hello.xml");
+
+                             BeanFactory bf=new XmlBeanFactory(res);
+
+                             Sample2 s=(Sample2)bf.getBean("sample2");*/
+
+                            
+
+                             /*ApplicationContext ctx=new FileSystemXmlApplicationContext("hello.xml");
+
+                             Sample2 s=(Sample2)ctx.getBean("sample2");*/
+
+                            
+
+                             ApplicationContext ctx=new AnnotationConfigApplicationContext(BeanConfiguration.class);
+
+                             Sample2 s=(Sample2)ctx.getBean(Sample2.class);
+
+              }
+
+}
+
+ 
+
+ 
+
+JPA(Java Persistence API)
+
+    - used to persist data into db
+
+    - It is a specification(inbuilt annotation, interface, classes etc) to persist the data into db
+
+ 
+
+ORM(Object Relational Mapping framework)
+
+     - It is a provider or vendor who provides implementation for JPA using ORM tools like Hibernate, iBatis, JDO, Toplink etc
+
+     - used to map pojo class(entity/persistent class) with the columns of the database table
+
+ 
+
+Features
+
+1. open source framework, light weight
+
+2. Database independent query
+
+JPAQL(JPA Query Language) - query the entity class
+
+SQL - query the table directly
+
+3. Automatic table creation based on properties of entity class
+
+4. Generate sql queries automatically
+
+5. Faster in performance - using caching framework
+
+ 
+
+ 
+
+client appl - JPA - Hibernate - Database
+
+ 
+
+1. Configure db info and Hibernate properties in separate xml file
+
+ 
+
+<!--Database information-->
+
+<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/dbname"/>
+
+<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+
+<property name="javax.persistence.jdbc.user" value="root"/>
+
+<property name="javax.persistence.jdbc.password" value="root"/>
+
+ 
+
+<!--Hibernate properties-->
+
+<property name="hbm2ddl.auto" value="create/update/create-drop/validate"/>  --used to automatically create the table
+
+ 
+
+1. create - create new schema,if the table already present it will recreate it
+
+2. update - update the schema with given values with old values
+
+3. create-drop - create the schema with destroying data previously present only on closing SessionFactory
+
+4. validate - validate the schema by checking the table, if table not present it will throw an error
+
+ 
+
+<property name="show-sql">true/false</property>
+
+       - used to display generated sql query in the console in single line
+
+ 
+
+<property name="format-sql">true/false</property>
+
+       - used to display generated sql query in the console in formatted manner
+
+ 
+
+<property name="use-sql-comments">true/false</property>
+
+       - used to display comments for the generated sql query in the console
+
+ 
+
+<property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
+
+       - Hibernate will generate sql query based on particular db, on which db the sql query should be generated is decided based on dialect property
+
+ 
+
+ 
+
+JPA - javax.persistence.* package - (inbuilt annotation, interface, classes etc)
+
+ 
+
+1. EntityManagerFactory interface - used to create EntityManager interface and it brings all info from xml file
+
+ 
+
+2. EntityManager interface - core interface used to persist data into db
+
+ 
+
+Methods
+
+1. void persist(Object o) - used to insert single object into db if PK is not present, if PK is already present then it will perform an update operation - generate insert or update query
+
+2. Object find(Serializable s, Object pk) - used to select single data from db - generate select query
+
+3. void remove(Object o)- remove single object from db table - generate delete query
+
+4. void close()
+
+5. boolean contains(Object o)
+
+6. EntityTransaction getTransaction()
+
+7. Query createQuery(String query) - write JPAQL
+
+8. Query createNativeQuery(String query)- write SQL
+
+9. Query createNamedQuery(String name) - identify query based on their name
+
+ 
+
+3. EntityTransaction interface - create a transaction
+
+      - void begin()
+
+      - void commit()
+
+      - void rollback()
+
+ 
+
+4. Query interface - used to write database independent query
+
+ 
+
+ 
+
+1. Create maven java project with 2 dependency(hibernate-core, mysql driver)
+
+ 
+
+              <dependencies>
+
+                             <dependency>
+
+                                           <groupId>org.hibernate</groupId>
+
+                                           <artifactId>hibernate-core</artifactId>
+
+                                           <version>5.4.24.Final</version>
+
+                             </dependency>
+
+                             <dependency>
+
+                                           <groupId>mysql</groupId>
+
+                                           <artifactId>mysql-connector-java</artifactId>
+
+                                           <version>8.0.19</version>
+
+                             </dependency>
+
+              </dependencies>
+
+ 
+
+2. In mysql db , we create a database
+
+ 
+
+mysql> create database aspirejava;
+
+Query OK, 1 row affected (0.04 sec)
+
+ 
+
+3. Configure db info and hibernate properties in persistence.xml inside resources/META-INF folder
+
+ 
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<persistence xmlns=http://java.sun.com/xml/ns/persistence version="2.0">
+
+    <persistence-unit name="student-info" transaction-type="RESOURCE_LOCAL">
+
+       <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+       <properties>
+
+            <!-- Database information -->
+
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/aspirejava"/>
+
+                                           <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+
+                                           <property name="javax.persistence.jdbc.user" value="root"/>
+
+                                           <property name="javax.persistence.jdbc.password" value="root"/>
+
+                                          
+
+                                           <!-- Hibernate properties -->
+
+                                           <property name="hibernate.hbm2ddl.auto">update</property>
+
+                                           <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+
+           
+
+       </properties>
+
+    </persistence-unit>
+
+</persistence>
+
+ 
+
+4. Create entity/persistent class using JPA annotation - Simple POJO class which contains getter and setter method based on the columns of the database table
+
+ 
+
+import javax.persistence.*;
+
+ 
+
+@Entity - indicate it is a entity class so that these properties are mapped to columns of db table
+
+@Table(name="stud100") - optional - used to map entity class properties to the columns of the table, if it is not given then by default it will create the table in the name of entity class itself
+
+public class Student {
+
+   @Id - indicate it is a primary key(no duplication, no null value)
+
+   @GeneratedValue(strategy=GenerationType.AUTO(entire db)/IDENTITY(particular table)/SEQUENCE(only in oracle)/TABLE) - To indicate PK value to be autogenerated, in case if we not provide @GeneratedValue then we have to provide the value PK column
+
+   @Column(name="stud_id",length=20,nullable="true/false",unique="true/false",insertable="true/false",updatable="true/false",scale=7,precision=2)  12345.67
+
+   private Integer studentId;
+
+ 
+
+   @Column(name="sname")
+
+   private String name;
+
+ 
+
+   private Integer age;
+
+ 
+
+   @Temporal(TemporalType.DATE/TIME/TIMESTAMP) - used to map java util date to sql date
+
+   private Date dob;
+
+ 
+
+   private LocalDate doj;
+
+ 
+
+   //private String gender;
+
+ 
+
+   @Enumerated(EnumType.STRING/ORDINAL(0,1,2...))
+
+   private Gender gender;
+
+ 
+
+   @Lob - used to map large objects to db table like image, audio, video file
+
+   @Column(name="myPicture",columnDefination="BLOB")
+
+   private byte[] image;
+
+ 
+
+   @Column(name="stumark",scale="5",precision="2")  //100.00
+
+   private Double mark;
+
+ 
+
+   @Transient - used to ignore the field at time of persisting
+
+   private String status;
+
+}
+
+ 
+
+ 
+
+public enum Gender {
+
+   MALE, FEMALE, OTHERS
+
+}
